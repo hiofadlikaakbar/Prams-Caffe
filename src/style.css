@@ -1,0 +1,28 @@
+@import "tailwindcss";
+@theme {
+  --font-lexend-zetta: "Lexend Zetta", "sans-serif";
+  --font-lexend: "Lexend", "sans-serif";
+  --breakpoint-3xl: 1920px;
+  --breakpoint-xs: 350px;
+  --color-avocado-100: oklch(0.99 0 0);
+  --color-light-pink: #f2ece9;
+  --color-brown: #964d29;
+  --color-coffe: #36241a;
+}
+
+.custom-scrollbar::-webkit-scrollbar {
+  width: 8px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: whitesmoke;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  border-radius: calc(infinity * 1px);
+  background: #964d29;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: whitesmoke;
+}
