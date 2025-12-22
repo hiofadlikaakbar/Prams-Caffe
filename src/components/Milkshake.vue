@@ -11,14 +11,18 @@
       <div
         v-for="milkshake in milkshakes"
         :key="milkshake.id"
-        class="relative group"
+        class="relative group bg-white rounded-xl overflow-hidden shadow"
       >
-        <img
-          :src="milkshake.full_image_url"
-          :alt="milkshake.name"
-          class="w-full"
-        />
+        <!-- IMAGE WRAPPER -->
+        <div class="w-full h-64 overflow-hidden">
+          <img
+            :src="milkshake.full_image_url"
+            :alt="milkshake.name"
+            class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+          />
+        </div>
 
+        <!-- INFO -->
         <div
           class="absolute bottom-0 left-0 w-full bg-black/75 text-white text-center py-2 font-lexend"
         >

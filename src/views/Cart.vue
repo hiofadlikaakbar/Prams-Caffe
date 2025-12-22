@@ -8,17 +8,37 @@
       Keranjang Belanja
     </h1>
 
-    <!-- Jika kosong -->
+    <!-- EMPTY STATE -->
     <div
       v-if="cart.items.length === 0"
-      class="text-slate-600 text-center py-6 sm:py-0"
+      class="flex flex-col items-center justify-center text-center py-20 text-slate-600"
     >
-      Keranjang masih kosong.
+      <!-- Icon -->
+      <div
+        class="w-24 h-24 rounded-full bg-slate-100 flex items-center justify-center mb-6"
+      >
+        <ShoppingCart class="w-10 h-10 text-slate-400" />
+      </div>
+
+      <h2 class="text-lg sm:text-xl font-semibold text-slate-800 mb-2">
+        Keranjang masih kosong
+      </h2>
+
+      <p class="text-sm sm:text-base mb-6 max-w-md">
+        Koweh belum order apapun, mau ngeliatin apa disini 😹
+      </p>
+
+      <RouterLink
+        to="/home"
+        class="bg-coffe text-white px-6 py-3 rounded-lg hover:bg-coffe/90 transition font-medium"
+      >
+        Order dulu ga sih
+      </RouterLink>
     </div>
 
-    <!-- Jika ada item -->
+    <!-- CART ITEMS -->
     <div v-else class="space-y-4 sm:space-y-6">
-      <!-- Card Keranjang -->
+      <!-- Card -->
       <div class="bg-white rounded-xl shadow p-4 sm:p-6 space-y-4">
         <p class="text-sm sm:text-base text-slate-500">
           {{ cart.items.length }} item dalam keranjang
@@ -31,13 +51,11 @@
           class="flex flex-col sm:flex-row items-start sm:items-center justify-between border-b pb-4 last:border-b-0 gap-4 sm:gap-0"
         >
           <div class="flex items-center gap-3 sm:gap-4 w-full sm:w-auto">
-            <!-- Image -->
             <img
               :src="item.image_url"
               class="w-full sm:w-40 h-28 rounded-lg object-cover"
             />
 
-            <!-- Info -->
             <div class="flex-1">
               <p class="font-medium text-sm sm:text-base mb-1">
                 {{ item.name }}
@@ -48,9 +66,8 @@
             </div>
           </div>
 
-          <!-- Qty + Remove -->
+          <!-- Qty -->
           <div class="flex items-center gap-2 sm:gap-3 mt-2 sm:mt-0">
-            <!-- Minus -->
             <button
               @click="cart.decreaseQty(item.id)"
               class="w-8 h-8 flex items-center justify-center cursor-pointer"
@@ -58,9 +75,10 @@
               <MinusCircle />
             </button>
 
-            <span class="w-5 text-center text-sm">{{ item.quantity }}</span>
+            <span class="w-5 text-center text-sm">
+              {{ item.quantity }}
+            </span>
 
-            <!-- Plus -->
             <button
               @click="cart.increaseQty(item.id)"
               class="w-8 h-8 flex items-center justify-center cursor-pointer"
@@ -68,7 +86,6 @@
               <PlusCircle />
             </button>
 
-            <!-- Remove -->
             <button
               @click="cart.removeItem(item.id)"
               class="text-slate-500 hover:text-red-500 ml-2 cursor-pointer"
@@ -79,7 +96,7 @@
         </div>
       </div>
 
-      <!-- Subtotal -->
+      <!-- SUBTOTAL -->
       <div class="bg-white rounded-xl shadow p-4 sm:p-6">
         <div
           class="flex flex-col sm:flex-row justify-between text-base sm:text-lg font-semibold gap-2 sm:gap-0"
@@ -103,8 +120,9 @@
 import Navbar from "../components/Navbar.vue";
 import { onMounted } from "vue";
 import { useCartStore } from "../stores/cart";
-import { useRouter } from "vue-router";
-import { PlusCircle, MinusCircle, Trash2 } from "lucide-vue-next";
+import { useRouter, RouterLink } from "vue-router";
+import { PlusCircle, MinusCircle, Trash2, ShoppingCart } from "lucide-vue-next";
+
 const cart = useCartStore();
 const router = useRouter();
 
@@ -123,7 +141,13 @@ function checkout() {
   Swal.fire({
     icon: "success",
     title: "KELAZZ Masbroo!",
+    text: "Lanjut ke halaman checkout 🚀",
+    timer: 1500,
+    showConfirmButton: false,
   });
-  router.push("/checkout");
+
+  setTimeout(() => {
+    router.push("/checkout");
+  }, 1500);
 }
 </script>

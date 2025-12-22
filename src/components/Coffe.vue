@@ -8,9 +8,21 @@
     </div>
 
     <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-10 items-center">
-      <div v-for="coffee in coffees" :key="coffee.id" class="relative group">
-        <img :src="coffee.image_full_url" :alt="coffee.name" class="w-full" />
+      <div
+        v-for="coffee in coffees"
+        :key="coffee.id"
+        class="relative group bg-white rounded-xl overflow-hidden shadow"
+      >
+        <!-- IMAGE WRAPPER -->
+        <div class="w-full h-64 overflow-hidden">
+          <img
+            :src="coffee.image_full_url"
+            :alt="coffee.name"
+            class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+          />
+        </div>
 
+        <!-- INFO -->
         <div
           class="absolute bottom-0 left-0 w-full bg-black/75 text-white text-center py-2 font-lexend"
         >

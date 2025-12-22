@@ -8,27 +8,42 @@
         <img :src="prams_logo" alt="prams-logo" />
         <span class="font-semibold text-brown text-lg">PRMS</span>
       </RouterLink>
-
       <ul class="hidden md:flex items-center gap-12 font-medium text-slate-900">
         <li>
-          <RouterLink to="/coffe-menu" class="hover:text-brown duration-200"
-            >Coffe</RouterLink
-          >
+          <RouterLink to="/coffe-menu" class="hover:text-brown duration-200">
+            Coffe
+          </RouterLink>
         </li>
+
         <li>
-          <RouterLink to="/milkshake-menu" class="hover:text-brown duration-200"
-            >Milkshake</RouterLink
+          <RouterLink
+            to="/milkshake-menu"
+            class="hover:text-brown duration-200"
           >
+            Milkshake
+          </RouterLink>
         </li>
-        <li>
-          <RouterLink to="/snack-menu" class="hover:text-brown duration-200"
-            >Snacks</RouterLink
+
+        <!-- ADMIN ONLY -->
+        <li v-if="isAdmin">
+          <RouterLink
+            to="/admin/dashboard"
+            class="hover:text-brown duration-200"
           >
+            Dashboard
+          </RouterLink>
         </li>
+
         <li>
-          <RouterLink to="/cart" class="hover:text-brown duration-200"
-            >Order</RouterLink
-          >
+          <RouterLink to="/snack-menu" class="hover:text-brown duration-200">
+            Snacks
+          </RouterLink>
+        </li>
+
+        <li>
+          <RouterLink to="/cart" class="hover:text-brown duration-200">
+            Order
+          </RouterLink>
         </li>
       </ul>
     </div>
@@ -233,8 +248,10 @@
 
 <script setup>
 import { ref, onMounted } from "vue";
+import { supabase } from "../lib/supabase";
 import { RouterLink } from "vue-router";
 import { useCartStore } from "../stores/cart";
+
 import {
   ShoppingCart,
   Menu,
@@ -270,6 +287,24 @@ function formatRupiah(value) {
     currency: "IDR",
   }).format(value);
 }
+
+const isAdmin = ref(false);
+
+onMounted(async () => {
+  const {
+    data: { session },
+  } = await supabase.auth.getSession();
+
+  if (!session) return;
+
+  const { data } = await supabase
+    .from("tbl_users")
+    .select("role")
+    .eq("id", session.user.id)
+    .single();
+
+  isAdmin.value = data?.role === "admin";
+});
 </script>
 
 <style scoped>
