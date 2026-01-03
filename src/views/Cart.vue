@@ -52,7 +52,7 @@
         >
           <div class="flex items-center gap-3 sm:gap-4 w-full sm:w-auto">
             <img
-              :src="item.image_url"
+              :src="getImageUrl(item)"
               class="w-full sm:w-40 h-28 rounded-lg object-cover"
             />
 
@@ -149,5 +149,18 @@ function checkout() {
   setTimeout(() => {
     router.push("/checkout");
   }, 1500);
+}
+
+function getImageUrl(item) {
+  const bucketMap = {
+    coffee: "coffee_images",
+    milkshake: "milkshake_images",
+    snacks: "snacks_images",
+  };
+
+  const bucket = bucketMap[item.product_type];
+  if (!bucket || !item.image_url) return "";
+
+  return `https://gvergloqhajtcunrbfxg.supabase.co/storage/v1/object/public/${bucket}/${item.image_url}`;
 }
 </script>

@@ -1,19 +1,25 @@
 <template>
-  <header>
-    <Navbar></Navbar>
-  </header>
-  <section>
-    <Jumbotron></Jumbotron>
-  </section>
-  <section>
-    <Coffe></Coffe>
-  </section>
-  <section class="bg-light-pink">
-    <Milkshake></Milkshake>
-  </section>
-  <section>
-    <Snack></Snack>
-  </section>
+  <div class="page">
+    <header>
+      <Navbar />
+    </header>
+
+    <section>
+      <Jumbotron />
+    </section>
+
+    <section>
+      <Coffe />
+    </section>
+
+    <section class="bg-light-pink">
+      <Milkshake />
+    </section>
+
+    <section>
+      <Snack />
+    </section>
+  </div>
 </template>
 
 <script setup>
@@ -23,3 +29,9 @@ import Coffe from "../components/Coffe.vue";
 import Milkshake from "../components/Milkshake.vue";
 import Snack from "../components/Snack.vue";
 </script>
+
+<style scoped>
+.page {
+  min-height: 100vh;
+}
+</style>

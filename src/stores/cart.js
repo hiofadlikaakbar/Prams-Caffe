@@ -63,7 +63,7 @@ export const useCartStore = defineStore("cart", {
           product_type: type,
           name: product.name,
           price: product.price,
-          image_url: product.image_full_url,
+          image_url: product.image_url,
           quantity: 1,
         });
       }

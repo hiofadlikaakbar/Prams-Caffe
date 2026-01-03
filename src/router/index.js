@@ -1,5 +1,6 @@
 import { createWebHistory, createRouter } from "vue-router";
 import { supabase } from "../lib/supabase";
+
 import LoginPage from "../views/LoginPage.vue";
 import SignUp from "../views/SignUp.vue";
 import MainHome from "../views/MainHome.vue";
@@ -9,6 +10,8 @@ import SnackMenu from "../views/SnackMenu.vue";
 import Cart from "../views/Cart.vue";
 import CheckoutView from "../views/CheckoutView.vue";
 import InvoiceView from "../views/InvoiceView.vue";
+
+// Admin
 import DashboardAdmin from "../views/admin/DashboardAdmin.vue";
 import ProductAdmin from "../views/admin/ProductAdmin.vue";
 import UsersAdmin from "../views/admin/UsersAdmin.vue";
@@ -38,6 +41,8 @@ const routes = [
     component: InvoiceView,
     meta: { requiresAuth: true },
   },
+
+  // Admin
   {
     path: "/admin",
     redirect: "/admin/dashboard",
@@ -63,18 +68,25 @@ const routes = [
 const router = createRouter({
   history: createWebHistory(),
   routes,
+
+  // 🔝 selalu scroll ke atas
+  scrollBehavior() {
+    return { top: 0 };
+  },
 });
+
+// 🔐 AUTH GUARD
 router.beforeEach(async (to, from, next) => {
   const {
     data: { session },
   } = await supabase.auth.getSession();
 
-  // 🔒 belum login
+  // belum login
   if (to.meta.requiresAuth && !session) {
     return next("/");
   }
 
-  // 👑 khusus admin
+  // khusus admin
   if (to.path.startsWith("/admin")) {
     const userId = session?.user?.id;
 
