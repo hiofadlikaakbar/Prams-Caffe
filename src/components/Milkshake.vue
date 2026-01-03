@@ -115,7 +115,7 @@ function formatRupiah(value) {
 /* LOOP ANIMATION (SEAMLESS) */
 function animate() {
   if (!paused.value) {
-    x -= 1; // SPEED SAMA DENGAN COFFEE
+    x -= 1;
     if (Math.abs(x) >= trackWidth / 2) {
       x = 0;
     }
