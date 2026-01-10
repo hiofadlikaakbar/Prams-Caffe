@@ -86,10 +86,10 @@ import AdminLayout from "./AdminLayout.vue";
 
 import { Pencil, Trash2, UserPlus } from "lucide-vue-next";
 
-/* ================= STATE ================= */
+// state
 const users = ref([]);
 
-/* ================= FETCH ================= */
+// fetch users
 async function fetchUsers() {
   const { data, error } = await supabase
     .from("tbl_users")
@@ -106,49 +106,22 @@ async function fetchUsers() {
 
 onMounted(fetchUsers);
 
-/* ================= ADD ================= */
+// add users (admin just read only)
 async function openAdd() {
-  const { value } = await Swal.fire({
+  Swal.fire({
+    icon: "info",
     title: "Tambah User",
     html: `
-      <input id="swal-name" class="swal2-input" placeholder="Nama">
-      <input id="swal-email" class="swal2-input" placeholder="Email">
-      <select id="swal-role" class="swal2-input">
-        <option value="user">User</option>
-        <option value="admin">Admin</option>
-      </select>
+      <p>User baru <b>harus mendaftar sendiri</b> lewat halaman signup.</p>
+      <p class="text-sm text-gray-500 mt-2">
+        Admin hanya bisa mengatur role user.
+      </p>
     `,
-    showCancelButton: true,
-    confirmButtonText: "Simpan",
-    focusConfirm: false,
-    preConfirm: () => {
-      const name = document.getElementById("swal-name").value;
-      const email = document.getElementById("swal-email").value;
-      const role = document.getElementById("swal-role").value;
-
-      if (!name || !email) {
-        Swal.showValidationMessage("Nama dan Email wajib diisi");
-        return;
-      }
-
-      return { name, email, role };
-    },
+    confirmButtonText: "Mengerti",
   });
-
-  if (!value) return;
-
-  const { error } = await supabase.from("tbl_users").insert(value);
-
-  if (error) {
-    Swal.fire("Error", error.message, "error");
-    return;
-  }
-
-  Swal.fire("Berhasil", "User berhasil ditambahkan", "success");
-  fetchUsers();
 }
 
-/* ================= EDIT ================= */
+// edit users
 async function openEdit(u) {
   const { value } = await Swal.fire({
     title: "Edit User",
@@ -196,7 +169,7 @@ async function openEdit(u) {
   fetchUsers();
 }
 
-/* ================= DELETE ================= */
+// delete users
 async function remove(id) {
   const result = await Swal.fire({
     title: "Hapus user?",
@@ -220,7 +193,7 @@ async function remove(id) {
   fetchUsers();
 }
 
-/* ================= UTILS ================= */
+// utils
 function getInitial(name) {
   return name?.charAt(0).toUpperCase() || "?";
 }
