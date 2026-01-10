@@ -28,16 +28,13 @@
         </p>
       </div>
 
-      <!-- ITEMS LIST -->
+      <!-- ITEMS -->
       <div class="text-base space-y-3 mb-4">
-        <div v-for="item in items" :key="item.id" class="space-y-1">
-          <!-- Nama & subtotal -->
+        <div v-for="item in items" :key="item.id">
           <div class="flex justify-between font-medium">
             <span>{{ item.quantity }}x {{ item.name }}</span>
             <span>{{ formatRupiah(item.subtotal) }}</span>
           </div>
-
-          <!-- Harga satuan -->
           <div class="text-sm text-gray-500 pl-3">
             @ {{ formatRupiah(item.price) }}
           </div>
@@ -52,9 +49,17 @@
         <span>{{ formatRupiah(order?.total_price) }}</span>
       </div>
 
+      <!-- PAY VIA WA -->
+      <button
+        @click="goToWhatsapp"
+        class="mt-6 w-full bg-green-600 hover:bg-green-700 transition text-white py-3 rounded-lg font-semibold"
+      >
+        Lanjutkan Pembayaran via WhatsApp
+      </button>
+
       <!-- FOOTER -->
-      <div class="mt-6 text-center text-base text-gray-500">
-        <p>Makasih sudah nongkrong 🫰😹 di</p>
+      <div class="mt-4 text-center text-sm text-gray-500">
+        <p>Makasih sudah nongkrong 🫰😹</p>
         <p class="font-semibold text-coffe mt-1">PRMS CF</p>
       </div>
     </div>
@@ -88,6 +93,27 @@ onMounted(async () => {
   items.value = itemsData || [];
 });
 
+/* ================== WA ================== */
+function goToWhatsapp() {
+  const phone = "6282124063463";
+
+  let message = `Halo admin PRMS CF 👋%0A%0A`;
+  message += `Saya mau melanjutkan pembayaran:%0A%0A`;
+  message += `Order ID: ${order.value.id}%0A`;
+  message += `Tanggal: ${formatDate(order.value.created_at)}%0A%0A`;
+  message += `Pesanan:%0A`;
+
+  items.value.forEach((i) => {
+    message += `${i.quantity}x ${i.name} - ${formatRupiah(i.subtotal)}%0A`;
+  });
+
+  message += `%0ATotal: ${formatRupiah(order.value.total_price)}%0A%0A`;
+  message += `Terima kasih 🙏`;
+
+  window.open(`https://wa.me/${phone}?text=${message}`, "_blank");
+}
+
+/* ================== UTILS ================== */
 function formatRupiah(value) {
   return new Intl.NumberFormat("id-ID", {
     style: "currency",
@@ -102,9 +128,8 @@ function formatDate(date) {
 function paymentLabel(method) {
   const map = {
     cash: "Bayar di Tempat",
-    ovo: "OVO",
+    transfer: "Transfer Bank",
     qris: "QRIS",
-    credit_card: "Kartu Kredit",
   };
   return map[method] || "-";
 }
