@@ -15,6 +15,7 @@ import InvoiceView from "../views/InvoiceView.vue";
 import DashboardAdmin from "../views/admin/DashboardAdmin.vue";
 import ProductAdmin from "../views/admin/ProductAdmin.vue";
 import UsersAdmin from "../views/admin/UsersAdmin.vue";
+import AdminOrders from "../views/admin/AdminOrders.vue";
 
 const routes = [
   { path: "/", component: LoginPage },
@@ -63,13 +64,17 @@ const routes = [
     component: UsersAdmin,
     meta: { requiresAuth: true },
   },
+  {
+    path: "/admin/orders",
+    component: AdminOrders,
+    meta: { requiresAuth: true },
+  },
 ];
 
 const router = createRouter({
   history: createWebHistory(),
   routes,
 
-  // 🔝 selalu scroll ke atas
   scrollBehavior() {
     return { top: 0 };
   },

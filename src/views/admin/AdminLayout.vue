@@ -36,7 +36,13 @@
 <script setup>
 import { supabase } from "../../lib/supabase";
 import { useRouter } from "vue-router";
-import { LayoutDashboard, Package, Users, LogOut } from "lucide-vue-next";
+import {
+  LayoutDashboard,
+  Package,
+  Users,
+  LogOut,
+  ShoppingCart,
+} from "lucide-vue-next";
 
 const router = useRouter();
 
@@ -44,6 +50,7 @@ const menu = [
   { label: "Dashboard", to: "/admin/dashboard", icon: LayoutDashboard },
   { label: "Produk", to: "/admin/products", icon: Package },
   { label: "Users", to: "/admin/users", icon: Users },
+  { label: "Order", to: "/admin/orders", icon: ShoppingCart },
 ];
 
 async function logout() {
